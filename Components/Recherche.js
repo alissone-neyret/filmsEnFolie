@@ -19,7 +19,7 @@ const Recherche = () => {
     console.log("texte recherche", texteRecherche);
 
     if (texteRecherche.length > 0) {
-      recupereFilmsDepuisApiAvecTexteDeRecherche("start").then((data) => {
+      recupereFilmsDepuisApiAvecTexteDeRecherche(texteRecherche).then((data) => {
         console.log(data);
         return setFilms(data.results);
       });
