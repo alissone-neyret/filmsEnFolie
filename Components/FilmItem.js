@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
+import { recupereImageDepuisApi } from "../API/TMDBApi";
 
 const FilmItem = (props) => {
   return (
     <View style={styles.main_container}>
-      <Image style={styles.image} source={require("../assets/splash.png")} />
+      <Image style={styles.image} source={{uri: recupereImageDepuisApi(props.film.poster_path)}} />
       <View style={styles.container_contenu}>
         <View style={styles.container_enTete}>
           <Text style={styles.titre}>{props.film.title}</Text>
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 180,
     margin: 5,
-    backgroundColor: 'gray'
   },
   container_contenu: {
     flex: 1,
