@@ -17,28 +17,48 @@ const Recherche = () => {
   const [enChargement, setEnChargement] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  let pageARecuperer = 1;
+  let list;
 
   const rechercheFilm = () => {
     setPage(0);
     setTotalPages(0);
+    pageARecuperer = 1;
 
     if (texteRecherche.length > 0) {
       setEnChargement(true);
-      recupereFilmsDepuisApiAvecTexteDeRecherche(texteRecherche).then(
+
+      if (totalPages === 0) {
+        list.scrollToIndex({ index: 0 })
+      }
+
+      recupereFilmsDepuisApiAvecTexteDeRecherche(texteRecherche, pageARecuperer).then(
         (data) => {
           setPage(data.page);
-          console.log("page requete", page);
 
           setTotalPages(data.total_pages);
-          console.log("total page requete", totalPages);
 
-          // const totalFilms = [...films, ...data.results];
           setFilms(data.results);
           return setEnChargement(false);
         }
       );
     }
   };
+
+  const chargePlusDeFilms = () => {
+    pageARecuperer += 1;
+
+    list.scrollToIndex({animation: true, index: 0 })
+
+    recupereFilmsDepuisApiAvecTexteDeRecherche(texteRecherche, pageARecuperer).then(
+      (data) => {
+        setPage(data.page);
+
+        setFilms([...films, ...data.results]);
+      }
+    )
+
+  }
 
   return (
     <View style={styles.container}>
@@ -50,15 +70,17 @@ const Recherche = () => {
       />
       <Button title="Rechercher" onPress={() => rechercheFilm()} />
       <FlatList
+        ref={(ref) => { list = ref; }}
         data={films}
         keyExtractor={(item) => {
           return item.id.toString();
         }}
+
         renderItem={({ item }) => <FilmItem film={item} />}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (page < totalPages) {
-            rechercheFilm();
+            chargePlusDeFilms();
           }
         }}
       />

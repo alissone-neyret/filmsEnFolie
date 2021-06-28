@@ -1,9 +1,9 @@
 import { API_TOKEN } from "../config"
 
 
-export const recupereFilmsDepuisApiAvecTexteDeRecherche = (texte) => {
+export const recupereFilmsDepuisApiAvecTexteDeRecherche = (texte, page) => {
     console.log("texte", texte)
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_TOKEN}&language=fr&query=${texte}&include_adult=false`;
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_TOKEN}&language=fr&query=${texte}&include_adult=false&page=${page}`;
 
     return fetch(url)
             .then((response) => response.json())
