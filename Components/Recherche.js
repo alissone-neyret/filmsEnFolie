@@ -109,12 +109,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   textinput: {
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 13,
+    marginRight: 13,
+    marginBottom: 5,
     height: 50,
     borderColor: "#000000",
     borderWidth: 1,
     paddingLeft: 5,
+    borderRadius: 5,
   },
 });
 
